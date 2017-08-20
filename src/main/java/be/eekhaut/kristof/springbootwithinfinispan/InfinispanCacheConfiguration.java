@@ -22,7 +22,7 @@ public class InfinispanCacheConfiguration {
         return cacheManager -> {
             final org.infinispan.configuration.cache.Configuration testCache =
                     new ConfigurationBuilder()
-                            .clustering().cacheMode(CacheMode.INVALIDATION_SYNC)
+                            .clustering().cacheMode(CacheMode.DIST_SYNC)
                             .eviction().size(3L).strategy(EvictionStrategy.LRU)
                             .build();
             cacheManager.defineConfiguration(TEST_CACHE_NAME, testCache);

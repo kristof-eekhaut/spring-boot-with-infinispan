@@ -19,9 +19,10 @@ public class GreetingsController {
         return greetingsRepository.getGreeting(id);
     }
 
-    @RequestMapping(value = "/{id}/drop", method = RequestMethod.DELETE)
-    public void resetGreeting(@PathVariable int id) {
+    @RequestMapping(value = "/{id}/reset", method = RequestMethod.GET)
+    public String resetGreeting(@PathVariable int id) {
         System.out.println("Reset greeting: " + id);
         greetingsRepository.resetGreeting(id);
+        return "Removed from cache...";
     }
 }

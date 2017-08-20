@@ -24,7 +24,7 @@ public class GreetingsRepository {
         greetings.add("Dobry den");
     }
 
-    @Cacheable(value = "greetings", key = "#id")
+    @Cacheable(value = InfinispanCacheConfiguration.CACHE_NAME, key = "#id")
     public String getGreeting(int id) {
         return greetings.get(id);
     }

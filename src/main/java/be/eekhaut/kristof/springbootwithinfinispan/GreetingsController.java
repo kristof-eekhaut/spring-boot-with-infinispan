@@ -1,6 +1,7 @@
 package be.eekhaut.kristof.springbootwithinfinispan;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,16 +13,15 @@ public class GreetingsController {
     @Autowired
     private GreetingsRepository greetingsRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String sayHello() {
-        int id = getRandomId();
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String sayHello(@PathVariable int id) {
         System.out.println("Say hello... (" + id + ")");
         return greetingsRepository.getGreeting(id);
     }
 
-    private int getRandomId() {
-        int nrOfGreetings = greetingsRepository.getNrOfGreetings();
-        int randomId = (int) Math.floor(Math.random() * nrOfGreetings);
-        return randomId < nrOfGreetings ? randomId : 0;
+    @RequestMapping(value = "/{id}/drop", method = RequestMethod.DELETE)
+    public void resetGreeting(@PathVariable int id) {
+        System.out.println("Reset greeting: " + id);
+        greetingsRepository.resetGreeting(id);
     }
 }

@@ -1,5 +1,6 @@
 package be.eekhaut.kristof.springbootwithinfinispan;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
@@ -39,5 +40,10 @@ public class GreetingsRepository {
 
     public int getNrOfGreetings() {
         return greetings.size();
+    }
+
+    @CacheEvict(value = InfinispanCacheConfiguration.CACHE_NAME, key = "#id")
+    public void resetGreeting(int id) {
+        // Method clears a cached item
     }
 }

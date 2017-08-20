@@ -27,6 +27,7 @@ public class GreetingsRepository {
     @Cacheable(value = InfinispanCacheConfiguration.CACHE_NAME, key = "#id")
     public String getGreeting(int id) {
 
+        System.out.println("Looking up the greeting for id: " + id);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {

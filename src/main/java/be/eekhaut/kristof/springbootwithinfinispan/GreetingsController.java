@@ -14,7 +14,9 @@ public class GreetingsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String sayHello() {
-        return greetingsRepository.getGreeting(getRandomId());
+        int id = getRandomId();
+        System.out.println("Say hello... (" + id + ")");
+        return greetingsRepository.getGreeting(id);
     }
 
     private int getRandomId() {

@@ -36,7 +36,7 @@ public class InfinispanCacheConfiguration {
                                     .createOnStart(true)
                                     .tableNamePrefix("GREETINGS_CACHE")
                                     .idColumnName("ID").idColumnType("VARCHAR(255)")
-                                    .dataColumnName("DATA").dataColumnType("BINARY")
+                                    .dataColumnName("DATA").dataColumnType("VARCHAR")
                                     .timestampColumnName("TIMESTAMP").timestampColumnType("BIGINT")
                                 .connectionPool()
                                     .connectionUrl("jdbc:postgresql://infinispan-postgresql:5432/greetings")

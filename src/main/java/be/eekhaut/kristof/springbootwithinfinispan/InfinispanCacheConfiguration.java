@@ -30,6 +30,8 @@ public class InfinispanCacheConfiguration {
                                 .purgeOnStartup(false)
                                 .shared(true)
                                 .dialect(DatabaseType.POSTGRES)
+                                .dbMajorVersion(9)
+                                .dbMinorVersion(1)
                                 .table()
                                     .createOnStart(true)
                                     .tableNamePrefix("GREETINGS_CACHE")

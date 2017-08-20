@@ -29,27 +29,16 @@ public class InfinispanCacheConfiguration {
                                 .purgeOnStartup(false)
                                 .shared(true)
                                 .table()
-                                    .dropOnExit(true)
                                     .createOnStart(true)
                                     .tableNamePrefix("GREETINGS_CACHE")
                                     .idColumnName("ID").idColumnType("VARCHAR(255)")
                                     .dataColumnName("DATA").dataColumnType("BINARY")
                                     .timestampColumnName("TIMESTAMP").timestampColumnType("BIGINT")
                                 .connectionPool()
-                                    .connectionUrl("jdbc:h2:mem:infinispan_string_based;DB_CLOSE_DELAY=-1")
-                                    .username("sa")
-                                    .driverClass("org.h2.Driver")
+                                    .connectionUrl("postgresql://infinispan-postgresql:5432/greetings")
+                                    .username("infinispan").password("infinispan").driverClass(org.postgresql.Driver.class)
                             .eviction().size(3L).strategy(EvictionStrategy.LRU)
                             .build();
-
-
-//            configurationBuilder.persistence()
-//                    .addStore(JdbcStringBasedStoreConfigurationBuilder.class)
-//                    .connectionPool()
-//                    .connectionUrl("jdbc:postgresql://dbhost:5432/infinispan")
-//                    .username("infinispan").password("infinispan").driverClass(org.postgresql.Driver.class)
-//                    .table().tableNamePrefix("ISPN_STRING_TABLE").createOnStart(true)
-//                    .async().enabled();
 
             cacheManager.defineConfiguration(CACHE_NAME, testCache);
         };

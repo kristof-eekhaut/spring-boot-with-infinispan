@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-with-infinispan
+spec:
+  selector:
+    app: spring-boot-with-infinispan
+    deploymentconfig: spring-boot-with-infinispan
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080

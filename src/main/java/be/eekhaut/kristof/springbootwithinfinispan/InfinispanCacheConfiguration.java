@@ -42,6 +42,7 @@ public class InfinispanCacheConfiguration {
                                     .connectionUrl("jdbc:postgresql://infinispan-postgresql:5432/greetings")
                                     .username("infinispan").password("infinispan").driverClass(org.postgresql.Driver.class)
                             .eviction().size(3L).strategy(EvictionStrategy.LRU)
+                            .jmxStatistics()
                             .build();
 
             cacheManager.defineConfiguration(CACHE_NAME, testCache);
@@ -53,6 +54,8 @@ public class InfinispanCacheConfiguration {
         return () -> {
             final GlobalConfiguration globalConfiguration = new GlobalConfigurationBuilder()
                     .transport().defaultTransport().clusterName(CLUSTER)
+                    .addProperty("configurationFile", "default-configs/default-jgroups-kubernetes.xml")
+                    .globalJmxStatistics().enable()
                     .build();
             return globalConfiguration;
         };

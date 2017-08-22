@@ -1,6 +1,7 @@
-logging:
-  level:
-    org.jgroups: WARN
+#logging:
+#  level:
+#    org.jgroups: TRACE
+#    org.infinispan: TRACE
 
 management:
   security:

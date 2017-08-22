@@ -2,9 +2,7 @@ package be.eekhaut.kristof.springbootwithinfinispan;
 
 import org.infinispan.Cache;
 import org.infinispan.notifications.Listener;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryRemoved;
+import org.infinispan.notifications.cachelistener.annotation.*;
 import org.infinispan.notifications.cachelistener.event.Event;
 import org.infinispan.notifications.cachemanagerlistener.annotation.CacheStarted;
 import org.infinispan.notifications.cachemanagerlistener.annotation.CacheStopped;
@@ -12,6 +10,8 @@ import org.infinispan.spring.provider.SpringEmbeddedCacheManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static be.eekhaut.kristof.springbootwithinfinispan.InfinispanCacheConfiguration.CACHE_NAME;
 
 @Service
 @Listener
@@ -21,7 +21,7 @@ public class GreetingsCacheListener implements InitializingBean {
     private SpringEmbeddedCacheManager embeddedCacheManager;
 
     private Cache<String, String> getGreetingsCache() {
-        return (Cache<String, String>) this.embeddedCacheManager.getCache("greetings").getNativeCache();
+        return (Cache<String, String>) this.embeddedCacheManager.getCache(CACHE_NAME).getNativeCache();
     }
 
     public void installCacheListener() {
@@ -50,5 +50,15 @@ public class GreetingsCacheListener implements InitializingBean {
     @CacheEntryRemoved
     public void handle(Event event) {
         System.out.println("Cache entry modified. Details = " + event);
+    }
+
+    @CacheEntryVisited
+    public void visit(Event event) {
+        System.out.println("Cache entry visited. Details = " + event);
+    }
+
+    @CacheEntryLoaded
+    public void loaded(Event event) {
+        System.out.println("Cache entry loaded. Details = " + event);
     }
 }

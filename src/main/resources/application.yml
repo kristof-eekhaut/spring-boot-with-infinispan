@@ -1,8 +1,15 @@
-#logging:
-#  level:
+logging:
+  level:
 #    org.jgroups: TRACE
-#    org.infinispan: TRACE
+#    org.infinispan: DEBUG
 
 management:
   security:
     enabled: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://infinispan-postgresql:5432/greetings
+    username: infinispan
+    password: infinispan
+    driver-class-name: org.postgresql.Driver

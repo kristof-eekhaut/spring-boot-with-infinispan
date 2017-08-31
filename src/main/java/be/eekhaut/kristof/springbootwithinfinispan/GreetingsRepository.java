@@ -1,18 +1,32 @@
 package be.eekhaut.kristof.springbootwithinfinispan;
 
-import org.springframework.cache.annotation.CacheEvict;
+import org.infinispan.spring.provider.SpringEmbeddedCacheManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static be.eekhaut.kristof.springbootwithinfinispan.InfinispanCacheConfiguration.CACHE_NAME;
+
 @Repository
 public class GreetingsRepository {
 
     private List<String> greetings = new ArrayList<>();
 
-    public GreetingsRepository() {
+    private SpringEmbeddedCacheManager cacheManager;
+    private GreetingsCacheDAO greetingsCacheDAO;
+
+    @Autowired
+    public GreetingsRepository(SpringEmbeddedCacheManager cacheManager, GreetingsCacheDAO greetingsCacheDAO) {
+        this.cacheManager = cacheManager;
+        this.greetingsCacheDAO = greetingsCacheDAO;
+
+        initGreetings();
+    }
+
+    private void initGreetings() {
         greetings.add("Hello");
         greetings.add("Hi");
         greetings.add("Hallo");
@@ -25,25 +39,21 @@ public class GreetingsRepository {
         greetings.add("Dobry den");
     }
 
-    @Cacheable(value = InfinispanCacheConfiguration.CACHE_NAME, key = "#id")
-    public String getGreeting(int id) {
+    @Cacheable(value = CACHE_NAME, key = "#name + #id")
+    public String getGreeting(String name, int id) {
 
-        System.out.println("Looking up the greeting for id: " + id);
+        System.out.println("Looking up the greeting for name: " + name);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             // do nothing
         }
 
-        return greetings.get(id);
+        return greetings.get(id) + ", " + name;
     }
 
-    public int getNrOfGreetings() {
-        return greetings.size();
-    }
-
-    @CacheEvict(value = InfinispanCacheConfiguration.CACHE_NAME, key = "#id")
-    public void resetGreeting(int id) {
-        // Method clears a cached item
+    public void resetGreeting(String name) {
+        List<String> keysToEvict = greetingsCacheDAO.getAllCacheKeysForName(name);
+        keysToEvict.forEach((key) -> cacheManager.getCache(CACHE_NAME).evict(key));
     }
 }

@@ -7,6 +7,7 @@ import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.eviction.EvictionStrategy;
+import org.infinispan.eviction.EvictionType;
 import org.infinispan.persistence.jdbc.DatabaseType;
 import org.infinispan.persistence.jdbc.configuration.JdbcStringBasedStoreConfigurationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,7 @@ public class InfinispanCacheConfiguration {
                                 .connectionPool()
                                     .connectionUrl("jdbc:postgresql://infinispan-postgresql:5432/greetings")
                                     .username("infinispan").password("infinispan").driverClass(org.postgresql.Driver.class)
-                            .eviction().size(3L).strategy(EvictionStrategy.LRU)
+                            .eviction().type(EvictionType.COUNT).size(2L).strategy(EvictionStrategy.LRU)
                             .jmxStatistics()
                             .build();
 

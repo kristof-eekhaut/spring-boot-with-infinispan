@@ -10,6 +10,7 @@ import org.infinispan.eviction.EvictionStrategy;
 import org.infinispan.eviction.EvictionType;
 import org.infinispan.persistence.jdbc.DatabaseType;
 import org.infinispan.persistence.jdbc.configuration.JdbcStringBasedStoreConfigurationBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +19,9 @@ public class InfinispanCacheConfiguration {
 
     public static final String CLUSTER = "GREETING_CACHE_CLUSTER";
     public static final String CACHE_NAME = "greetings";
+
+    @Autowired
+    private InfinispanCacheProperties properties;
 
     @Bean
     public InfinispanCacheConfigurer cacheConfigurer() {
@@ -40,8 +44,10 @@ public class InfinispanCacheConfiguration {
                                     .dataColumnName("DATA").dataColumnType("BYTEA")
                                     .timestampColumnName("TIMESTAMP").timestampColumnType("BIGINT")
                                 .connectionPool()
-                                    .connectionUrl("jdbc:postgresql://infinispan-postgresql:5432/greetings")
-                                    .username("infinispan").password("infinispan").driverClass(org.postgresql.Driver.class)
+                                    .connectionUrl(properties.getUrl())
+                                    .username(properties.getUsername())
+                                    .password(properties.getPassword())
+                                    .driverClass(org.postgresql.Driver.class)
                             .eviction().type(EvictionType.COUNT).size(2L).strategy(EvictionStrategy.LRU)
                             .jmxStatistics()
                             .build();

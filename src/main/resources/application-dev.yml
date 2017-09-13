@@ -1,0 +1,8 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.99.100:30010/greetings
+
+cache:
+  infinispan:
+    url: jdbc:postgresql://192.168.99.100:30010/greetings

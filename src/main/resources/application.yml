@@ -13,3 +13,9 @@ spring:
     username: infinispan
     password: infinispan
     driver-class-name: org.postgresql.Driver
+
+cache:
+  infinispan:
+    url: jdbc:postgresql://infinispan-postgresql:5432/greetings
+    username: infinispan
+    password: infinispan
